@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+</head>
+
+
+<script>
+
+    let myModule = angular.module("moduleKuch", []);
+    let myController = myModule.controller("controllerKuch", function ($scope, $http) {
+        $scope.doShowCities = function () {
+            let url = "/fetch-cities";
+            $http.get(url).then(function (resp) {
+                // alert(JSON.stringify(resp.data))
+                $scope.jsonArrayCities = resp.data;
+            }, function (err) {
+                alert(err);
+            })
+        }
+        $scope.doShowMedicines = function () {
+            let url = "/fetch-medicines";
+            $http.get(url).then(function (resp) {
+                // alert(JSON.stringify(resp.data))
+                $scope.jsonArrayMedicines = resp.data;
+            }, function (err) {
+                alert(err);
+            })
+        }
+        $scope.doShowMedByCity = function () {
+            let url = "/show-MedByCity?city=" + $scope.selCity;
+            $http.get(url).then(function (resp) {
+                $scope.jsonArrayMedicines = resp.data;
+            }, function (err) {
+                alert(err);
+            })
+        }
+        $scope.doShowSelMed = function () {
+            let url = "/show-selMed?medicine=" + $scope.selMedicine + "&city=" + $scope.selCity;
+            $http.get(url).then(function (resp) {
+                $scope.jsonArray = resp.data;
+            }, function (err) {
+                alert(err);
+            })
+        }
+        //==FETCH DONOR===
+        $scope.doShowDonor = function (Email) {
+            let url = "/show-donor?email=" + Email;
+            $http.get(url).then(function (resp) {
+                $scope.jsonArrayDonor = resp.data;
+            }, function (err) {
+                alert(err);
+            })
+        }
+
+
+    })
+
+    
+
+</script>
+
+<body ng-app="moduleKuch" ng-controller="controllerKuch" style="background-color: rgb(195, 218, 230);" ng-init="doShowCities()">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <div class="collapse navbar-collapse " id="navbarNavAl Markup">
+                    <div class="navbar-nav ms-auto" style="font-size: 20px; ">
+                        <button class="btn btn-outline-danger" onclick="doLogout()" id="btnLogOut">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <form>
+        <div class="container mt-4  shadow p-4 border rounded p-4" style="background-color: azure;">
+            <div class="row mt-4 justify-content-center align-items-center">
+                <div class="col-md-4">
+                    Select City:
+                    <select ng-model="selCity" ng-change="doShowMedByCity()">
+                        <option value="">Select</option>
+                        <option ng-repeat="obj in jsonArrayCities" value="{{obj.city}}">{{obj.city}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Choose Medicine:</label>
+
+                    <input list="medicine-list" ng-model="selMedicine" placeholder="Type or select...">
+                    <datalist id="medicine-list">
+                        <option ng-repeat="obj in jsonArrayMedicines" value="{{obj.medname}}"></option>
+                    </datalist>
+                </div>
+                <div class="col-md-3">
+                    <input type="button" class="btn btn-outline-primary" value="Filter Data" ng-click="doShowSelMed()">
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- CARDS -->
+    <div class="container shadow p-4 border rounded p-4" style="background-image: url('PICS/bg.avif');">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary">Find Medicines</h2>
+            <!-- <p class="text-muted">Search medicines available from donors in your city</p> -->
+        </div>
+        <div class="row g-3 mt-4">
+            <div class="col-md-3" ng-repeat="obj in jsonArray">
+                <div class="card border border-primary text-center shadow">
+                    <img src="{{obj.picurl}}" height="100" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{obj.medname}}</h5>
+                        <p class="card-text">
+                            Exp date: {{obj.expdate}}
+                        </p>
+                        <p class="card-text">
+                            Packing: {{obj.packing}}
+                        </p>
+                        <p class="card-text">
+                            Quantity: {{obj.qty}}
+                        </p>
+                        <a href="#" ng-click="doShowDonor(obj.emailid)" data-bs-toggle="modal"
+                            data-bs-target="#donorModal" class="btn btn-outline-primary">Contact Donor</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL DONOR -->
+    <div class="modal fade" id="donorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: azure;">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Donor's Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" ng-repeat="obj in jsonArrayDonor">
+                    <center>
+                        <img src="{{obj.picpath}}" class="rounded-circle border border-primary p-1"
+                            style="height: 80px; width: 80px;" alt="">
+                        <h3>{{obj.name}}</h3>
+                    </center>
+                    <table class="table table-borderless">
+                        <tr>
+                            <th width="35%">Email:</th>
+                            <td>{{obj.emailid}}</td>
+                        </tr>
+                        <tr>
+                            <th>Contact:</th>
+                            <td>{{obj.mobile}}</td>
+                        </tr>
+                        <tr>
+                            <th>City:</th>
+                            <td>{{obj.city}}</td>
+                        </tr>
+                        <tr>
+                            <th>Address:</th>
+                            <td>{{obj.address}}</td>
+                        </tr>
+                        <tr>
+                            <th>Aadhar Picture:</th>
+                            <td>
+
+                                    <img src={{obj.acardpath}} width="70" height="50" alt="">
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+
+                    <button class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
