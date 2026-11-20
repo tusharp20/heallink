@@ -652,7 +652,7 @@ app.get("/show-donor",function(req,resp)
 })
 //link ngo
 app.get("/ngoReg", function(req, resp) {
-    var path=__dirname+"/public/ngo-registration.html";
+    var path=__dirname+"/public/ngo-registration.HTML";
         resp.sendFile(path);
 });
 //====REGD+NGO====
