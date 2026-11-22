@@ -10,6 +10,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
 </head>
 <script>
+      function setEmail(){
+          document.getElementById("inputEmail").value=localStorage.getItem("activeuser")
+          
+      }
+    </script>v
+<script>
+        function doLogout() {
+            localStorage.removeItem("activeuser");
+            location.href = "/";
+        }
+
+    </script>
+<script>
     let myModule = angular.module("moduleKuch", []);
     let myController = myModule.controller("controllerKuch", function ($scope, $http) {
         $scope.doShowCities = function () {
