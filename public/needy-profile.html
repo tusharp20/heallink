@@ -23,6 +23,13 @@
           
       }
     </script>
+    <script>
+        function doLogout() {
+            localStorage.removeItem("activeuser");
+            location.href = "/";
+        }
+
+    </script>
 </head>
 
 <body onload="setEmail()" style="background-color: rgb(195, 218, 230);">
