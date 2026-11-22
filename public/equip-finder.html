@@ -9,7 +9,18 @@
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
 </head>
+<script>
+      function setEmail(){
+          document.getElementById("inputEmail").value=localStorage.getItem("activeuser")
+      }
+    </script>
+    <script>
+        function doLogout() {
+            localStorage.removeItem("activeuser");
+            location.href = "/";
+        }
 
+    </script>
 
 <script>
 
@@ -56,6 +67,8 @@
     
 
 </script>
+
+
 
 <body ng-app="moduleKuch" ng-controller="controllerKuch" style="background-color: rgb(195, 218, 230);;"
     ng-init="doShowCities()">
