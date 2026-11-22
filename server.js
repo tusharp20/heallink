@@ -504,7 +504,7 @@ app.get("/allMedicine", function(req, resp) {
     var path=__dirname+"/public/all-medicines.html";
         resp.sendFile(path);
 });
-//=========Fetch Medicine in cards
+//=========Fetch Medicine admin
 app.get("/fetch-Allmedicine",function(req,resp)
 {
      mysqlCon.query("select * from medicines ",function(err,resultJSONAry) {
