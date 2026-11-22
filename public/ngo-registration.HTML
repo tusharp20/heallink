@@ -20,6 +20,13 @@
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     
      <script>
+        function doLogout() {
+            localStorage.removeItem("activeuser");
+            location.href = "/";
+        }
+
+    </script>
+     <script>
       function setEmail(){
           document.getElementById("inputEmail").value=localStorage.getItem("activeuser")
       }
