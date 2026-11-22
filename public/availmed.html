@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bootstrap demo</title>
   <script>
+        function doLogout() {
+            localStorage.removeItem("activeuser");
+            location.href = "/";
+        }
+
+    </script>
+  <script>
     function doShowPrev(fileCtrl, prev) {
       const file = fileCtrl.files[0];//fetching selected file
 
@@ -27,6 +34,24 @@
 </script>
 
 <body onload="setEmail()">
+   <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <div class="collapse navbar-collapse " id="navbarNavAl Markup">
+                    <div class="navbar-nav ms-auto" style="font-size: 20px; ">
+                        <button class="btn btn-outline-danger" onclick="doLogout()" id="btnLogOut">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
   <div class="container mt-4 shadow p-4 border rounded p-4">
     <div class="row">
       <div class="col-md-12 bg-primary text-black text-center">
